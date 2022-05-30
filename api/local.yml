@@ -1,0 +1,89 @@
+version: '3.9'
+
+x-postgres-variables: &postgres-variables
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: api
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+
+services:
+  postgres:
+    image: 'postgres'
+    container_name: 'postgres'
+    environment:
+      <<: *postgres-variables
+    ports:
+      - '5432:5432'
+    networks:
+      - api_network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: 'adminer'
+    container_name: 'adminer'
+    depends_on:
+      - postgres
+    ports:
+      - '8080:8080'
+    networks:
+      - api_network
+
+  api:
+    build:
+      context: .
+      dockerfile: ./compose/django/local/Dockerfile
+    container_name: 'api'
+    depends_on:
+      - postgres
+    environment:
+      <<: *postgres-variables
+      DJANGO_SECRET: 'he%n=qj#b5zvc7$b9cw5@f*5x5cp#n#vf(p#=fg+pqrwr_=w++'
+      API_KEY: '76ed9f63-1d17-4a4c-a16e-a970b2e7e3af'
+
+      # Product Service
+      PRODUCT_SERVICE_URL: 'http://product:8000'
+
+      # Order Service
+      ORDER_SERVICE_URL: 'http://order:8000'
+
+      # Payment Service
+      PAYMENT_SERVICE_URL: 'http://payment:8000'
+
+      # Cart Service
+      CART_SERVICE_URL: 'http://cart:8000'
+
+      # Ordering Service
+      ORDERING_SERVICE_URL: 'http://ordering:8000'
+    ports:
+      - '8000:8000'
+    networks:
+      - api_network
+      - product_product_network
+      - order_order_network
+      - payment_payment_network
+      - cart_cart_network
+      - ordering_ordering_network
+    volumes:
+      - .:/app
+
+
+networks:
+  api_network:
+    driver: bridge
+  ordering_ordering_network:
+    external: true
+  product_product_network:
+    external: true
+  order_order_network:
+    external: true
+  payment_payment_network:
+    external: true
+  cart_cart_network:
+    external: true
+
+volumes:
+  pgdata:
+
+

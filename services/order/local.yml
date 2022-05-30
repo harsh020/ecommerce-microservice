@@ -1,0 +1,56 @@
+version: '3.9'
+
+x-postgres-variables: &postgres-variables
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  POSTGRES_DB: order
+
+services:
+  postgres:
+    image: 'postgres'
+    container_name: 'order_postgres'
+    environment:
+      <<: *postgres-variables
+    ports:
+      - '5434:5432'
+    networks:
+      - order_network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: 'adminer'
+    container_name: 'order_adminer'
+    depends_on:
+      - postgres
+    ports:
+      - '8082:8080'
+    networks:
+      - order_network
+
+  order:
+    build:
+      context: .
+      dockerfile: ./compose/django/local/Dockerfile
+    container_name: 'order'
+    depends_on:
+      - postgres
+    environment:
+      <<: *postgres-variables
+      API_KEY: '76ed9f63-1d17-4a4c-a16e-a970b2e7e3af'
+      DJANGO_SECRET: 'juxjn33g)c2*zo_1*c!cu)+vnj@)-4&@l0+5t8yw$$p6g4_kwuv'
+    ports:
+      - '8002:8000'
+    networks:
+      - order_network
+    volumes:
+      - .:/app
+
+networks:
+  order_network:
+    driver: bridge
+
+volumes:
+  pgdata:

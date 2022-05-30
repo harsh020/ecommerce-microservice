@@ -1,0 +1,56 @@
+version: '3.9'
+
+x-postgres-variables: &postgres-variables
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: product
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+
+services:
+  postgres:
+    image: 'postgres'
+    container_name: 'product_postgres'
+    environment:
+      <<: *postgres-variables
+    ports:
+      - '5433:5432'
+    networks:
+      - product_network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: 'adminer'
+    container_name: 'product_adminer'
+    depends_on:
+      - postgres
+    ports:
+      - '8081:8080'
+    networks:
+      - product_network
+
+  product:
+    build:
+      context: .
+      dockerfile: ./compose/django/local/Dockerfile
+    container_name: 'product'
+    environment:
+      <<: *postgres-variables
+      API_KEY: '76ed9f63-1d17-4a4c-a16e-a970b2e7e3af'
+      DJANGO_SECRET: '07!px!0s$$+xt!e37b9sk=zj)8^9pd3=hr3y0h7xho)d-y-@rtd'
+    depends_on:
+      - postgres
+    ports:
+      - '8001:8000'
+    networks:
+      - product_network
+    volumes:
+      - .:/app
+
+networks:
+  product_network:
+    driver: bridge
+
+volumes:
+  pgdata:

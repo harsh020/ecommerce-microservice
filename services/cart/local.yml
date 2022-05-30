@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  redis:
+    image: 'redis:alpine'
+    container_name: 'cart_redis'
+    ports:
+      - '6379:6379'
+    networks:
+      - cart_network
+    volumes:
+      - redis_data:/data
+
+  cart:
+    build:
+      context: .
+      dockerfile: ./compose/django/local/Dockerfile
+    container_name: 'cart'
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      API_KEY: '76ed9f63-1d17-4a4c-a16e-a970b2e7e3af'
+      DJANGO_SECRET: 'kn4*c8(b0^3h(*6%-mdawykj3igltp39ts!o2^18fh3a!jo&-p'
+    depends_on:
+      - redis
+    ports:
+      - '8004:8000'
+    networks:
+      - cart_network
+    volumes:
+      - .:/app
+
+networks:
+  cart_network:
+    driver: bridge
+
+volumes:
+  redis_data:

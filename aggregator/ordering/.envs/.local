@@ -1,0 +1,36 @@
+# Django Environment
+# ---------------------
+API_KEY=76ed9f63-1d17-4a4c-a16e-a970b2e7e3af
+DJANGO_SECRET=lyms8j&y)mlkiii#$z&0bbs$974sv#s4k!tyxf+=0qbwmbkg)z
+
+
+# External Services
+# --------------------
+# Product Service
+PRODUCT_SERVICE_URL=http://localhost:8001
+PRODUCT_CREATE_API=/api/product/v1/create/
+PRODUCT_UPDATE_API=/api/product/v1/update/{id}/
+PRODUCT_DETAIL_API=/api/product/v1/{id}
+PRODUCT_LIST_API=/api/product/v1/list/
+
+# Order Service
+ORDER_SERVICE_URL=http://localhost:8002
+ORDER_CREATE_API=/api/order/v1/create/
+ORDER_UPDATE_API=/api/order/v1/update/{id}/
+ORDER_DETAIL_API=/api/order/v1/{id}/
+ORDER_LIST_API=/api/order/v1/list/
+
+# Payment Service
+PAYMENT_SERVICE_URL=http://localhost:8003
+PAYMENT_CREATE_API=/api/payment/v1/create/
+PAYMENT_UPDATE_API=/api/payment/v1/update/{id}/
+PAYMENT_DETAIL_API=/api/payment/v1/{id}/
+PAYMENT_LIST_API=/api/payment/v1/list/
+ORDER_PAYMENT_UPDATE_API=/api/payment/v1/update/{order}/
+ORDER_PAYMENT_DETAIL_API=/api/payment/v1/{order}/
+
+# Cart Service
+CART_SERVICE_URL=http://localhost:8005
+CART_UPDATE_API=/api/cart/v1/update/{customer}/
+CART_DETAIL_API=/api/cart/v1/{customer}/
+CART_DELETE_API=/api/cart/v1/clear/{customer}/

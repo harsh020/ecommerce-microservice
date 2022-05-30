@@ -1,0 +1,31 @@
+# Django Settings
+# --------------------
+API_KEY=76ed9f63-1d17-4a4c-a16e-a970b2e7e3af
+DJANGO_SECRET=he%n=qj#b5zvc7$b9cw5@f*5x5cp#n#vf(p#=fg+pqrwr_=w++
+
+# Database Settings
+# --------------------
+DATABASE_URL=postgres://local:local@localhost:5432/api
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=api
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin
+
+# External Services
+# --------------------
+# Product Service
+PRODUCT_SERVICE_URL=http://localhost:8001
+
+# Order Service
+ORDER_SERVICE_URL=http://localhost:8002
+
+# Payment Service
+PAYMENT_SERVICE_URL=http://localhost:8003
+
+# Cart Service
+CART_SERVICE_URL=http://localhost:8004
+
+# Ordering Service
+ORDERING_SERVICE_URL=http://localhost:8005
+
